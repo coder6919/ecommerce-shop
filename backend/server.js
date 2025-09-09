@@ -5,14 +5,25 @@ const cors = require('cors');
 
 const app = express();
 
-// --- START OF THE FIX ---
-// Updated CORS Configuration to include the Vite server's address.
+const allowedOrigins = [
+    'http://localhost:5173', // Your local dev server
+    'https://ecommerce-app69.netlify.app' // Your live Netlify site
+];
+
 const corsOptions = {
-    // We now allow requests from the old Live Server and the new Vite server.
-    origin: ['http://localhost:5500', 'http://127.0.0.1:5500', 'http://localhost:5173','https://ecommerce-app69.netlify.app'], 
-    optionsSuccessStatus: 200
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    }
 };
 
+// Use the new, more robust CORS options
 app.use(cors(corsOptions));
 // --- END OF THE FIX ---
 
@@ -22,10 +33,10 @@ mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected successfully'))
-  .catch(err => {
-    console.error('MongoDB Connection Error:', err);
-    process.exit(1);
-  });
+    .catch(err => {
+        console.error('MongoDB Connection Error:', err);
+        process.exit(1);
+    });
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/cart', require('./routes/cart'));

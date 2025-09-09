@@ -9,7 +9,7 @@ const app = express();
 // Updated CORS Configuration to include the Vite server's address.
 const corsOptions = {
     // We now allow requests from the old Live Server and the new Vite server.
-    origin: ['http://localhost:5500', 'http://127.0.0.1:5500', 'http://localhost:5173'], 
+    origin: ['http://localhost:5500', 'http://127.0.0.1:5500', 'http://localhost:5173','https://ecommerce-app69.netlify.app'], 
     optionsSuccessStatus: 200
 };
 

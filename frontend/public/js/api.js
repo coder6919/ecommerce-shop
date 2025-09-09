@@ -1,4 +1,4 @@
-const MY_API_URL = 'https://eshop-backend-syed.onrender.com';
+const MY_API_URL = 'https://eshop-backend-syed.onrender.com/api';
 const FAKE_STORE_API_URL = 'https://fakestoreapi.com';
 
 export const fetchAllProducts = async () => (await fetch(`${FAKE_STORE_API_URL}/products`)).json();
